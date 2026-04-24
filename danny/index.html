@@ -97,8 +97,9 @@
 </div>
 
 <div class="doc-body">
-  <form id="briefing-form" action="https://formspree.io/f/xdkogabc" method="POST">
+  <form id="briefing-form" action="https://formspree.io/f/xjgjlkqd" method="POST">
     <input type="hidden" name="_subject" value="Briefing Canva — Dannyela Azevedo">
+    <input type="hidden" name="_next" value="https://rapahell.github.io/briefing/danny/?enviado=1">
 
     <!-- 1. IDENTIFICACAO -->
     <div class="section">
@@ -252,7 +253,7 @@
     <hr class="rule-double">
 
     <div class="submit-area">
-      <p class="submit-note">Ao enviar, suas respostas chegam diretamente para<br><strong>contato@raphaelfaria.com.br</strong></p>
+      <p class="submit-note">Ao enviar, suas respostas chegam diretamente para Raphael.</p>
       <button type="submit" class="btn-submit">&gt; Enviar Briefing</button>
     </div>
   </form>
@@ -279,29 +280,23 @@ function selectScale(group, btn) {
   document.getElementById(group + '-val').value = btn.dataset.val;
 }
 
-document.getElementById('briefing-form').addEventListener('submit', async function(e) {
-  e.preventDefault();
+// Mostra sucesso se voltou do Formspree com ?enviado=1
+if (new URLSearchParams(window.location.search).get('enviado') === '1') {
+  document.getElementById('briefing-form').style.display = 'none';
+  document.getElementById('success-msg').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.getElementById('briefing-form').addEventListener('submit', function(e) {
   if (!document.getElementById('tom-val').value) {
+    e.preventDefault();
     alert('Por favor, selecione o tom da linguagem (escala 1-5).');
     return;
   }
   const btn = this.querySelector('.btn-submit');
   btn.textContent = '> Enviando...';
   btn.disabled = true;
-  try {
-    const res = await fetch(this.action, { method:'POST', body: new FormData(this), headers:{'Accept':'application/json'} });
-    if (res.ok) {
-      this.style.display = 'none';
-      document.getElementById('success-msg').style.display = 'block';
-      window.scrollTo({top:0, behavior:'smooth'});
-    } else {
-      btn.textContent = '> Enviar Briefing'; btn.disabled = false;
-      alert('Erro ao enviar. Tente novamente.');
-    }
-  } catch {
-    btn.textContent = '> Enviar Briefing'; btn.disabled = false;
-    alert('Erro de conexao. Verifique sua internet.');
-  }
+  // submit normal — Formspree redireciona para a pagina de sucesso deles
 });
 </script>
 </body>
