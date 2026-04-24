@@ -59,7 +59,7 @@
   .opt-label input:checked ~ .opt-check::after { content: 'X'; }
   .opt-label input:checked ~ span { font-weight: 700; }
 
-  .scale-row { display: flex; gap: 6px; align-items: center; }
+  .scale-row { display: flex; gap: 6px; }
   .scale-labels { display: flex; justify-content: space-between; margin-top: 4px; font-size: 10px; color: var(--light); }
   .scale-btn { flex: 1; padding: 8px 4px; background: var(--paper); border: 1px solid var(--rule); font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--mid); cursor: pointer; text-align: center; transition: all 0.1s; }
   .scale-btn:hover { border-color: var(--dark); color: var(--dark); }
@@ -72,6 +72,7 @@
   .submit-note { font-size: 11px; color: var(--light); margin-bottom: 16px; line-height: 1.6; }
   .btn-submit { background: var(--dark); color: var(--paper); border: none; font-family: var(--mono); font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 16px 48px; cursor: pointer; transition: opacity 0.15s; width: 100%; max-width: 360px; }
   .btn-submit:hover { opacity: 0.85; }
+  .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
   #success-msg { display: none; text-align: center; padding: 48px 24px; }
   #success-msg .big { font-size: 40px; margin-bottom: 16px; }
@@ -99,7 +100,6 @@
 <div class="doc-body">
   <form id="briefing-form" action="https://formspree.io/f/xjgjlkqd" method="POST">
     <input type="hidden" name="_subject" value="Briefing Canva — Dannyela Azevedo">
-    <input type="hidden" name="_next" value="https://rapahell.github.io/briefing/danny/?enviado=1">
 
     <!-- 1. IDENTIFICACAO -->
     <div class="section">
@@ -139,15 +139,15 @@
       <div class="field">
         <label>Para quem voce atende? <span class="req">*</span></label>
         <div class="options-grid">
-          <label class="opt-label"><input type="checkbox" name="publico" value="Pessoa fisica"><div class="opt-check"></div><span>Pessoa fisica</span></label>
-          <label class="opt-label"><input type="checkbox" name="publico" value="Empresas / PJ"><div class="opt-check"></div><span>Empresas / PJ</span></label>
-          <label class="opt-label"><input type="checkbox" name="publico" value="Ambos"><div class="opt-check"></div><span>Ambos</span></label>
+          <label class="opt-label"><input type="checkbox" name="publico[]" value="Pessoa fisica"><div class="opt-check"></div><span>Pessoa fisica</span></label>
+          <label class="opt-label"><input type="checkbox" name="publico[]" value="Empresas / PJ"><div class="opt-check"></div><span>Empresas / PJ</span></label>
+          <label class="opt-label"><input type="checkbox" name="publico[]" value="Ambos"><div class="opt-check"></div><span>Ambos</span></label>
         </div>
       </div>
       <div class="field">
         <label>Perfil do seu cliente ideal</label>
         <div class="field-hint">Idade, situacao, contexto — qualquer detalhe ajuda</div>
-        <textarea name="cliente_ideal" placeholder="Ex: adultos de 30 a 55 anos passando por separacao, geralmente indicados por conhecidos..."></textarea>
+        <textarea name="cliente_ideal" placeholder="Ex: adultos de 30 a 55 anos passando por separacao..."></textarea>
       </div>
     </div>
 
@@ -157,18 +157,18 @@
       <div class="field">
         <label>Como voce quer ser percebida? <span class="req">*</span></label>
         <div class="options-grid">
-          <label class="opt-label"><input type="checkbox" name="posicionamento" value="Autoridade e seriedade"><div class="opt-check"></div><span>Autoridade e seriedade</span></label>
-          <label class="opt-label"><input type="checkbox" name="posicionamento" value="Acessivel e proxima"><div class="opt-check"></div><span>Acessivel e proxima</span></label>
-          <label class="opt-label"><input type="checkbox" name="posicionamento" value="Empatica e humana"><div class="opt-check"></div><span>Empatica e humana</span></label>
-          <label class="opt-label"><input type="checkbox" name="posicionamento" value="Moderna e inovadora"><div class="opt-check"></div><span>Moderna e inovadora</span></label>
-          <label class="opt-label"><input type="checkbox" name="posicionamento" value="Tradicional e classica"><div class="opt-check"></div><span>Tradicional e classica</span></label>
-          <label class="opt-label"><input type="checkbox" name="posicionamento" value="Feminina e sofisticada"><div class="opt-check"></div><span>Feminina e sofisticada</span></label>
+          <label class="opt-label"><input type="checkbox" name="posicionamento[]" value="Autoridade e seriedade"><div class="opt-check"></div><span>Autoridade e seriedade</span></label>
+          <label class="opt-label"><input type="checkbox" name="posicionamento[]" value="Acessivel e proxima"><div class="opt-check"></div><span>Acessivel e proxima</span></label>
+          <label class="opt-label"><input type="checkbox" name="posicionamento[]" value="Empatica e humana"><div class="opt-check"></div><span>Empatica e humana</span></label>
+          <label class="opt-label"><input type="checkbox" name="posicionamento[]" value="Moderna e inovadora"><div class="opt-check"></div><span>Moderna e inovadora</span></label>
+          <label class="opt-label"><input type="checkbox" name="posicionamento[]" value="Tradicional e classica"><div class="opt-check"></div><span>Tradicional e classica</span></label>
+          <label class="opt-label"><input type="checkbox" name="posicionamento[]" value="Feminina e sofisticada"><div class="opt-check"></div><span>Feminina e sofisticada</span></label>
         </div>
       </div>
       <div class="field">
         <label>Tom da linguagem <span class="req">*</span></label>
         <div class="field-hint">1 = muito formal &nbsp;/&nbsp; 5 = bem descontraido</div>
-        <div class="scale-row" id="tom-scale">
+        <div class="scale-row">
           <button type="button" class="scale-btn" data-val="1" onclick="selectScale('tom',this)">1</button>
           <button type="button" class="scale-btn" data-val="2" onclick="selectScale('tom',this)">2</button>
           <button type="button" class="scale-btn" data-val="3" onclick="selectScale('tom',this)">3</button>
@@ -187,26 +187,20 @@
         <label>Que tipos de post voce quer nos 8 templates? <span class="req">*</span></label>
         <div class="field-hint">Marque quantos quiser</div>
         <div class="options-grid">
-          <label class="opt-label"><input type="checkbox" name="tipos" value="Apresentacao pessoal / escritorio"><div class="opt-check"></div><span>Apresentacao pessoal / escritorio</span></label>
-          <label class="opt-label"><input type="checkbox" name="tipos" value="Conteudo educativo (direitos, dicas)"><div class="opt-check"></div><span>Conteudo educativo</span></label>
-          <label class="opt-label"><input type="checkbox" name="tipos" value="Mitos e verdades juridicos"><div class="opt-check"></div><span>Mitos e verdades juridicos</span></label>
-          <label class="opt-label"><input type="checkbox" name="tipos" value="Chamada para contato / consulta"><div class="opt-check"></div><span>Chamada para contato</span></label>
-          <label class="opt-label"><input type="checkbox" name="tipos" value="Datas comemorativas"><div class="opt-check"></div><span>Datas comemorativas</span></label>
-          <label class="opt-label"><input type="checkbox" name="tipos" value="Frases e citacoes"><div class="opt-check"></div><span>Frases e citacoes</span></label>
-          <label class="opt-label"><input type="checkbox" name="tipos" value="Bastidores / humanizacao"><div class="opt-check"></div><span>Bastidores / humanizacao</span></label>
-          <label class="opt-label"><input type="checkbox" name="tipos" value="Alertas e cuidados juridicos"><div class="opt-check"></div><span>Alertas e cuidados juridicos</span></label>
-          <label class="opt-label"><input type="checkbox" name="tipos" value="Noticias do mundo juridico"><div class="opt-check"></div><span>Noticias do mundo juridico</span></label>
-          <label class="opt-label"><input type="checkbox" name="tipos" value="Outros" id="outros-check" onclick="toggleOutros(this)"><div class="opt-check"></div><span>Outros</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Apresentacao pessoal / escritorio"><div class="opt-check"></div><span>Apresentacao pessoal / escritorio</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Conteudo educativo (direitos, dicas)"><div class="opt-check"></div><span>Conteudo educativo</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Mitos e verdades juridicos"><div class="opt-check"></div><span>Mitos e verdades juridicos</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Chamada para contato / consulta"><div class="opt-check"></div><span>Chamada para contato</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Datas comemorativas"><div class="opt-check"></div><span>Datas comemorativas</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Frases e citacoes"><div class="opt-check"></div><span>Frases e citacoes</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Bastidores / humanizacao"><div class="opt-check"></div><span>Bastidores / humanizacao</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Alertas e cuidados juridicos"><div class="opt-check"></div><span>Alertas e cuidados juridicos</span></label>
         </div>
-      </div>
-      <div class="field" id="outros-field" style="display:none">
-        <label>Descreva o tipo de conteudo que voce quer</label>
-        <textarea name="tipos_outros" placeholder="Descreva aqui o tipo de conteudo que voce tem em mente..."></textarea>
       </div>
       <div class="field">
         <label>Vai usar foto sua nos posts?</label>
         <div class="options-grid">
-          <label class="opt-label"><input type="radio" name="usa_foto" value="Sim, tenho fotos profissionais"><div class="opt-check"></div><span>Sim, fotos profissionais</span></label>
+          <label class="opt-label"><input type="radio" name="usa_foto" value="Sim, fotos profissionais"><div class="opt-check"></div><span>Sim, fotos profissionais</span></label>
           <label class="opt-label"><input type="radio" name="usa_foto" value="Sim, mas sao informais"><div class="opt-check"></div><span>Sim, mas sao informais</span></label>
           <label class="opt-label"><input type="radio" name="usa_foto" value="Prefiro sem foto minha"><div class="opt-check"></div><span>Prefiro sem foto minha</span></label>
           <label class="opt-label"><input type="radio" name="usa_foto" value="Ainda nao decidi"><div class="opt-check"></div><span>Ainda nao decidi</span></label>
@@ -246,15 +240,15 @@
       <div class="section-title">Observacoes Finais</div>
       <div class="field">
         <label>Alguma informacao adicional?</label>
-        <textarea name="observacoes" style="min-height:100px" placeholder="Datas importantes, eventos proximos, parceiros, qualquer detalhe relevante..."></textarea>
+        <textarea name="observacoes" style="min-height:100px" placeholder="Datas importantes, eventos proximos, qualquer detalhe relevante..."></textarea>
       </div>
     </div>
 
     <hr class="rule-double">
 
     <div class="submit-area">
-      <p class="submit-note">Ao enviar, suas respostas chegam diretamente para Raphael.</p>
-      <button type="submit" class="btn-submit">&gt; Enviar Briefing</button>
+      <p class="submit-note">Suas respostas chegam direto para Raphael.</p>
+      <button type="submit" class="btn-submit" id="btn-submit">&gt; Enviar Briefing</button>
     </div>
   </form>
 
@@ -266,37 +260,53 @@
 
 <div class="doc-footer">
   <span>RAPHAEL FARIA CRIATIVO</span>
-  <span>contato@raphaelfaria.com.br</span>
+  <span>raphaelfaria.com.br</span>
 </div>
 
 <script>
-function toggleOutros(cb) {
-  document.getElementById('outros-field').style.display = cb.checked ? 'block' : 'none';
-}
-
 function selectScale(group, btn) {
   btn.closest('.scale-row').querySelectorAll('.scale-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById(group + '-val').value = btn.dataset.val;
 }
 
-// Mostra sucesso se voltou do Formspree com ?enviado=1
-if (new URLSearchParams(window.location.search).get('enviado') === '1') {
-  document.getElementById('briefing-form').style.display = 'none';
-  document.getElementById('success-msg').style.display = 'block';
-  window.scrollTo({top:0, behavior:'smooth'});
-}
+document.getElementById('briefing-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
 
-document.getElementById('briefing-form').addEventListener('submit', function(e) {
   if (!document.getElementById('tom-val').value) {
-    e.preventDefault();
-    alert('Por favor, selecione o tom da linguagem (escala 1-5).');
+    alert('Por favor, selecione o tom da linguagem (escala 1 a 5).');
     return;
   }
-  const btn = this.querySelector('.btn-submit');
+
+  const btn = document.getElementById('btn-submit');
   btn.textContent = '> Enviando...';
   btn.disabled = true;
-  // submit normal — Formspree redireciona para a pagina de sucesso deles
+
+  try {
+    const res = await fetch(this.action, {
+      method: 'POST',
+      body: new FormData(this),
+      headers: { 'Accept': 'application/json' }
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      this.style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      const msg = data?.errors?.[0]?.message || 'Erro ao enviar. Tente novamente.';
+      alert(msg);
+      btn.textContent = '> Enviar Briefing';
+      btn.disabled = false;
+    }
+
+  } catch (err) {
+    alert('Erro de conexao. Verifique sua internet e tente novamente.');
+    btn.textContent = '> Enviar Briefing';
+    btn.disabled = false;
+  }
 });
 </script>
 </body>
