@@ -15,6 +15,24 @@
   html { background: var(--bg); }
   body { font-family: var(--mono); background: var(--bg); color: var(--dark); min-height: 100vh; padding: 0 0 60px; }
 
+  /* PROGRESS BAR */
+  .progress-bar-wrap {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--dark); padding: 10px 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .progress-track {
+    flex: 1; height: 3px; background: #444; position: relative; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: var(--paper);
+    width: 0%; transition: width 0.4s ease;
+  }
+  .progress-label {
+    font-family: var(--mono); font-size: 10px;
+    color: #888; letter-spacing: 0.1em; white-space: nowrap; min-width: 36px; text-align: right;
+  }
+
   .doc-header { background: var(--dark); color: var(--paper); padding: 28px 24px 22px; }
   .header-inner { max-width: 640px; margin: 0 auto; }
   .brand-line { font-size: 10px; letter-spacing: 0.18em; color: #888; text-transform: uppercase; margin-bottom: 10px; }
@@ -85,6 +103,14 @@
 </head>
 <body>
 
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap">
+  <div class="progress-track">
+    <div class="progress-fill" id="progress-fill"></div>
+  </div>
+  <div class="progress-label" id="progress-label">0%</div>
+</div>
+
 <div class="doc-header">
   <div class="header-inner">
     <div class="brand-line">Raphael Faria Criativo</div>
@@ -106,15 +132,15 @@
       <div class="section-title">Identificacao</div>
       <div class="field">
         <label>Nome completo <span class="req">*</span></label>
-        <input type="text" name="nome" required placeholder="Dannyela Azevedo">
+        <input type="text" name="nome" required placeholder="Dannyela Azevedo" class="trackable">
       </div>
       <div class="field">
         <label>E-mail para contato <span class="req">*</span></label>
-        <input type="email" name="email" required placeholder="seu@email.com.br">
+        <input type="email" name="email" required placeholder="seu@email.com.br" class="trackable">
       </div>
       <div class="field">
         <label>Area de atuacao principal <span class="req">*</span></label>
-        <select name="area_atuacao" required>
+        <select name="area_atuacao" required class="trackable">
           <option value="">-- selecione --</option>
           <option>Direito de Familia</option>
           <option>Direito Trabalhista</option>
@@ -129,7 +155,7 @@
       </div>
       <div class="field">
         <label>Areas secundarias ou complementares</label>
-        <textarea name="areas_secundarias" placeholder="Ex: tambem atuo com inventario e divorcio..."></textarea>
+        <textarea name="areas_secundarias" placeholder="Ex: tambem atuo com inventario e divorcio..." class="trackable"></textarea>
       </div>
     </div>
 
@@ -139,15 +165,15 @@
       <div class="field">
         <label>Para quem voce atende? <span class="req">*</span></label>
         <div class="options-grid">
-          <label class="opt-label"><input type="checkbox" name="publico[]" value="Pessoa fisica"><div class="opt-check"></div><span>Pessoa fisica</span></label>
-          <label class="opt-label"><input type="checkbox" name="publico[]" value="Empresas / PJ"><div class="opt-check"></div><span>Empresas / PJ</span></label>
-          <label class="opt-label"><input type="checkbox" name="publico[]" value="Ambos"><div class="opt-check"></div><span>Ambos</span></label>
+          <label class="opt-label"><input type="checkbox" name="publico[]" value="Pessoa fisica" class="trackable"><div class="opt-check"></div><span>Pessoa fisica</span></label>
+          <label class="opt-label"><input type="checkbox" name="publico[]" value="Empresas / PJ" class="trackable"><div class="opt-check"></div><span>Empresas / PJ</span></label>
+          <label class="opt-label"><input type="checkbox" name="publico[]" value="Ambos" class="trackable"><div class="opt-check"></div><span>Ambos</span></label>
         </div>
       </div>
       <div class="field">
         <label>Perfil do seu cliente ideal</label>
         <div class="field-hint">Idade, situacao, contexto — qualquer detalhe ajuda</div>
-        <textarea name="cliente_ideal" placeholder="Ex: adultos de 30 a 55 anos passando por separacao..."></textarea>
+        <textarea name="cliente_ideal" placeholder="Ex: adultos de 30 a 55 anos passando por separacao..." class="trackable"></textarea>
       </div>
     </div>
 
@@ -157,12 +183,12 @@
       <div class="field">
         <label>Como voce quer ser percebida? <span class="req">*</span></label>
         <div class="options-grid">
-          <label class="opt-label"><input type="checkbox" name="posicionamento[]" value="Autoridade e seriedade"><div class="opt-check"></div><span>Autoridade e seriedade</span></label>
-          <label class="opt-label"><input type="checkbox" name="posicionamento[]" value="Acessivel e proxima"><div class="opt-check"></div><span>Acessivel e proxima</span></label>
-          <label class="opt-label"><input type="checkbox" name="posicionamento[]" value="Empatica e humana"><div class="opt-check"></div><span>Empatica e humana</span></label>
-          <label class="opt-label"><input type="checkbox" name="posicionamento[]" value="Moderna e inovadora"><div class="opt-check"></div><span>Moderna e inovadora</span></label>
-          <label class="opt-label"><input type="checkbox" name="posicionamento[]" value="Tradicional e classica"><div class="opt-check"></div><span>Tradicional e classica</span></label>
-          <label class="opt-label"><input type="checkbox" name="posicionamento[]" value="Feminina e sofisticada"><div class="opt-check"></div><span>Feminina e sofisticada</span></label>
+          <label class="opt-label"><input type="checkbox" name="posicionamento[]" value="Autoridade e seriedade" class="trackable"><div class="opt-check"></div><span>Autoridade e seriedade</span></label>
+          <label class="opt-label"><input type="checkbox" name="posicionamento[]" value="Acessivel e proxima" class="trackable"><div class="opt-check"></div><span>Acessivel e proxima</span></label>
+          <label class="opt-label"><input type="checkbox" name="posicionamento[]" value="Empatica e humana" class="trackable"><div class="opt-check"></div><span>Empatica e humana</span></label>
+          <label class="opt-label"><input type="checkbox" name="posicionamento[]" value="Moderna e inovadora" class="trackable"><div class="opt-check"></div><span>Moderna e inovadora</span></label>
+          <label class="opt-label"><input type="checkbox" name="posicionamento[]" value="Tradicional e classica" class="trackable"><div class="opt-check"></div><span>Tradicional e classica</span></label>
+          <label class="opt-label"><input type="checkbox" name="posicionamento[]" value="Feminina e sofisticada" class="trackable"><div class="opt-check"></div><span>Feminina e sofisticada</span></label>
         </div>
       </div>
       <div class="field">
@@ -187,23 +213,28 @@
         <label>Que tipos de post voce quer nos 8 templates? <span class="req">*</span></label>
         <div class="field-hint">Marque quantos quiser</div>
         <div class="options-grid">
-          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Apresentacao pessoal / escritorio"><div class="opt-check"></div><span>Apresentacao pessoal / escritorio</span></label>
-          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Conteudo educativo (direitos, dicas)"><div class="opt-check"></div><span>Conteudo educativo</span></label>
-          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Mitos e verdades juridicos"><div class="opt-check"></div><span>Mitos e verdades juridicos</span></label>
-          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Chamada para contato / consulta"><div class="opt-check"></div><span>Chamada para contato</span></label>
-          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Datas comemorativas"><div class="opt-check"></div><span>Datas comemorativas</span></label>
-          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Frases e citacoes"><div class="opt-check"></div><span>Frases e citacoes</span></label>
-          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Bastidores / humanizacao"><div class="opt-check"></div><span>Bastidores / humanizacao</span></label>
-          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Alertas e cuidados juridicos"><div class="opt-check"></div><span>Alertas e cuidados juridicos</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Apresentacao pessoal / escritorio" class="trackable"><div class="opt-check"></div><span>Apresentacao pessoal / escritorio</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Conteudo educativo (direitos, dicas)" class="trackable"><div class="opt-check"></div><span>Conteudo educativo</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Mitos e verdades juridicos" class="trackable"><div class="opt-check"></div><span>Mitos e verdades juridicos</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Chamada para contato / consulta" class="trackable"><div class="opt-check"></div><span>Chamada para contato</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Datas comemorativas" class="trackable"><div class="opt-check"></div><span>Datas comemorativas</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Frases e citacoes" class="trackable"><div class="opt-check"></div><span>Frases e citacoes</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Bastidores / humanizacao" class="trackable"><div class="opt-check"></div><span>Bastidores / humanizacao</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Alertas e cuidados juridicos" class="trackable"><div class="opt-check"></div><span>Alertas e cuidados juridicos</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos[]" value="Outros" id="outros-check" class="trackable" onclick="toggleOutros(this)"><div class="opt-check"></div><span>Outros</span></label>
         </div>
+      </div>
+      <div class="field" id="outros-field" style="display:none">
+        <label>Descreva o tipo de conteudo que voce quer</label>
+        <textarea name="tipos_outros" placeholder="Descreva aqui..." class="trackable"></textarea>
       </div>
       <div class="field">
         <label>Vai usar foto sua nos posts?</label>
         <div class="options-grid">
-          <label class="opt-label"><input type="radio" name="usa_foto" value="Sim, fotos profissionais"><div class="opt-check"></div><span>Sim, fotos profissionais</span></label>
-          <label class="opt-label"><input type="radio" name="usa_foto" value="Sim, mas sao informais"><div class="opt-check"></div><span>Sim, mas sao informais</span></label>
-          <label class="opt-label"><input type="radio" name="usa_foto" value="Prefiro sem foto minha"><div class="opt-check"></div><span>Prefiro sem foto minha</span></label>
-          <label class="opt-label"><input type="radio" name="usa_foto" value="Ainda nao decidi"><div class="opt-check"></div><span>Ainda nao decidi</span></label>
+          <label class="opt-label"><input type="radio" name="usa_foto" value="Sim, fotos profissionais" class="trackable"><div class="opt-check"></div><span>Sim, fotos profissionais</span></label>
+          <label class="opt-label"><input type="radio" name="usa_foto" value="Sim, mas sao informais" class="trackable"><div class="opt-check"></div><span>Sim, mas sao informais</span></label>
+          <label class="opt-label"><input type="radio" name="usa_foto" value="Prefiro sem foto minha" class="trackable"><div class="opt-check"></div><span>Prefiro sem foto minha</span></label>
+          <label class="opt-label"><input type="radio" name="usa_foto" value="Ainda nao decidi" class="trackable"><div class="opt-check"></div><span>Ainda nao decidi</span></label>
         </div>
       </div>
     </div>
@@ -214,24 +245,24 @@
       <div class="field">
         <label>Voce ja tem identidade visual pronta? <span class="req">*</span></label>
         <div class="options-grid">
-          <label class="opt-label"><input type="radio" name="id_visual" value="Sim, completa (logo, cores, fontes)"><div class="opt-check"></div><span>Sim, completa</span></label>
-          <label class="opt-label"><input type="radio" name="id_visual" value="Sim, mas parcial"><div class="opt-check"></div><span>Sim, mas parcial</span></label>
-          <label class="opt-label"><input type="radio" name="id_visual" value="Nao tenho"><div class="opt-check"></div><span>Nao tenho</span></label>
-          <label class="opt-label"><input type="radio" name="id_visual" value="Tenho referencias visuais"><div class="opt-check"></div><span>Tenho referencias</span></label>
+          <label class="opt-label"><input type="radio" name="id_visual" value="Sim, completa (logo, cores, fontes)" class="trackable"><div class="opt-check"></div><span>Sim, completa</span></label>
+          <label class="opt-label"><input type="radio" name="id_visual" value="Sim, mas parcial" class="trackable"><div class="opt-check"></div><span>Sim, mas parcial</span></label>
+          <label class="opt-label"><input type="radio" name="id_visual" value="Nao tenho" class="trackable"><div class="opt-check"></div><span>Nao tenho</span></label>
+          <label class="opt-label"><input type="radio" name="id_visual" value="Tenho referencias visuais" class="trackable"><div class="opt-check"></div><span>Tenho referencias</span></label>
         </div>
       </div>
       <div class="field">
         <label>Cores que voce gosta ou ja usa</label>
-        <input type="text" name="cores" placeholder="Ex: dourado, verde escuro, preto e branco...">
+        <input type="text" name="cores" placeholder="Ex: dourado, verde escuro, preto e branco..." class="trackable">
       </div>
       <div class="field">
         <label>Referencias visuais ou perfis que voce admira</label>
         <div class="field-hint">Links do Instagram, nomes de perfis ou descricao de estilo</div>
-        <textarea name="referencias" placeholder="Ex: gosto do perfil @fulana, acho elegante e sobrio..."></textarea>
+        <textarea name="referencias" placeholder="Ex: gosto do perfil @fulana, acho elegante e sobrio..." class="trackable"></textarea>
       </div>
       <div class="field">
         <label>O que voce definitivamente NAO quer?</label>
-        <textarea name="nao_quer" placeholder="Ex: nao quero cores muito vibrantes, nao quero estilo infantil..."></textarea>
+        <textarea name="nao_quer" placeholder="Ex: nao quero cores muito vibrantes, nao quero estilo infantil..." class="trackable"></textarea>
       </div>
     </div>
 
@@ -240,7 +271,7 @@
       <div class="section-title">Observacoes Finais</div>
       <div class="field">
         <label>Alguma informacao adicional?</label>
-        <textarea name="observacoes" style="min-height:100px" placeholder="Datas importantes, eventos proximos, qualquer detalhe relevante..."></textarea>
+        <textarea name="observacoes" style="min-height:100px" placeholder="Datas importantes, eventos proximos, qualquer detalhe relevante..." class="trackable"></textarea>
       </div>
     </div>
 
@@ -264,12 +295,68 @@
 </div>
 
 <script>
+// ── PROGRESS BAR ─────────────────────────────────────────────────────────
+const TRACKED = [
+  'nome', 'email', 'area_atuacao',        // obrigatorios texto
+  'publico[]',                              // checkbox grupo
+  'posicionamento[]',                       // checkbox grupo
+  'tom_linguagem',                          // escala
+  'tipos[]',                                // checkbox grupo
+  'usa_foto',                               // radio
+  'id_visual',                              // radio
+  'cores', 'referencias', 'nao_quer', 'observacoes' // opcionais mas contam
+];
+
+function calcProgress() {
+  const form = document.getElementById('briefing-form');
+  let filled = 0;
+
+  TRACKED.forEach(name => {
+    const els = form.querySelectorAll(`[name="${name}"]`);
+    if (!els.length) {
+      // hidden input (tom_linguagem)
+      const el = form.querySelector(`#tom-val`);
+      if (el && el.value) filled++;
+      return;
+    }
+    const el = els[0];
+    if (el.type === 'checkbox' || el.type === 'radio') {
+      if (form.querySelector(`[name="${name}"]:checked`)) filled++;
+    } else {
+      if (el.value.trim()) filled++;
+    }
+  });
+
+  // tom_linguagem contado separado via hidden
+  const tom = document.getElementById('tom-val');
+  if (tom && tom.value) filled++;
+
+  const pct = Math.round((filled / TRACKED.length) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = pct + '%';
+}
+
+// ouve todos os campos trackable
+document.querySelectorAll('.trackable').forEach(el => {
+  el.addEventListener('change', calcProgress);
+  el.addEventListener('input', calcProgress);
+});
+
+// ── OUTROS ───────────────────────────────────────────────────────────────
+function toggleOutros(cb) {
+  document.getElementById('outros-field').style.display = cb.checked ? 'block' : 'none';
+  calcProgress();
+}
+
+// ── ESCALA ───────────────────────────────────────────────────────────────
 function selectScale(group, btn) {
   btn.closest('.scale-row').querySelectorAll('.scale-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById(group + '-val').value = btn.dataset.val;
+  calcProgress();
 }
 
+// ── SUBMIT ───────────────────────────────────────────────────────────────
 document.getElementById('briefing-form').addEventListener('submit', async function(e) {
   e.preventDefault();
 
@@ -294,6 +381,7 @@ document.getElementById('briefing-form').addEventListener('submit', async functi
     if (res.ok) {
       this.style.display = 'none';
       document.getElementById('success-msg').style.display = 'block';
+      document.querySelector('.progress-bar-wrap').style.display = 'none';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       const msg = data?.errors?.[0]?.message || 'Erro ao enviar. Tente novamente.';
