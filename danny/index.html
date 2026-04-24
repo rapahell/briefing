@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Briefing — Templates Canva | Raphael Faria</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f0ede6; --paper: #faf8f3; --dark: #1a1a1a;
+    --mid: #555; --light: #888; --rule: #bbb;
+    --mono: 'Courier Prime', 'Courier New', monospace;
+  }
+  html { background: var(--bg); }
+  body { font-family: var(--mono); background: var(--bg); color: var(--dark); min-height: 100vh; padding: 0 0 60px; }
+
+  .doc-header { background: var(--dark); color: var(--paper); padding: 28px 24px 22px; }
+  .header-inner { max-width: 640px; margin: 0 auto; }
+  .brand-line { font-size: 10px; letter-spacing: 0.18em; color: #888; text-transform: uppercase; margin-bottom: 10px; }
+  .doc-title { font-size: clamp(18px,5vw,26px); font-weight: 700; letter-spacing: 0.04em; line-height: 1.2; margin-bottom: 6px; }
+  .doc-sub { font-size: 12px; color: #aaa; letter-spacing: 0.06em; }
+  .doc-meta { margin-top: 16px; display: flex; gap: 20px; flex-wrap: wrap; border-top: 1px solid #333; padding-top: 12px; }
+  .doc-meta span { font-size: 10px; color: #777; letter-spacing: 0.1em; text-transform: uppercase; }
+  .doc-meta strong { color: #ccc; }
+
+  .doc-body { max-width: 640px; margin: 0 auto; padding: 0 16px; }
+
+  .section { margin-top: 32px; }
+  .section-title { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--light); padding-bottom: 8px; border-bottom: 1px solid var(--dark); margin-bottom: 20px; }
+  .section-title::before { content: '[ '; }
+  .section-title::after  { content: ' ]'; }
+
+  .field { margin-bottom: 20px; }
+  label { display: block; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--light); margin-bottom: 6px; }
+  label .req { color: var(--dark); }
+  .field-hint { font-size: 11px; color: var(--light); font-style: italic; margin-bottom: 6px; line-height: 1.5; }
+
+  input[type="text"], input[type="email"], textarea, select {
+    width: 100%; background: var(--paper); border: 1px solid var(--rule);
+    border-bottom: 2px solid var(--dark); padding: 10px 12px;
+    font-family: var(--mono); font-size: 13px; color: var(--dark);
+    outline: none; appearance: none; border-radius: 0; transition: border-color 0.15s;
+  }
+  input:focus, textarea:focus, select:focus { border-color: var(--dark); background: #fff; }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+  select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px;
+  }
+
+  .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .opt-label { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; background: var(--paper); border: 1px solid var(--rule); cursor: pointer; font-size: 12px; line-height: 1.4; transition: background 0.1s, border-color 0.1s; user-select: none; }
+  .opt-label:hover { background: #fff; border-color: var(--dark); }
+  .opt-label input { display: none; }
+  .opt-check { width: 14px; height: 14px; border: 1.5px solid var(--rule); flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; transition: all 0.1s; }
+  .opt-label input:checked ~ .opt-check { background: var(--dark); border-color: var(--dark); color: var(--paper); }
+  .opt-label input:checked ~ .opt-check::after { content: 'X'; }
+  .opt-label input:checked ~ span { font-weight: 700; }
+
+  .scale-row { display: flex; gap: 6px; align-items: center; }
+  .scale-labels { display: flex; justify-content: space-between; margin-top: 4px; font-size: 10px; color: var(--light); }
+  .scale-btn { flex: 1; padding: 8px 4px; background: var(--paper); border: 1px solid var(--rule); font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--mid); cursor: pointer; text-align: center; transition: all 0.1s; }
+  .scale-btn:hover { border-color: var(--dark); color: var(--dark); }
+  .scale-btn.active { background: var(--dark); color: var(--paper); border-color: var(--dark); }
+
+  .rule-double { margin: 32px 0 0; border: none; border-top: 2px solid var(--dark); }
+  .rule-double::after { content: ''; display: block; border-top: 1px solid var(--dark); margin-top: 3px; }
+
+  .submit-area { margin-top: 32px; text-align: center; }
+  .submit-note { font-size: 11px; color: var(--light); margin-bottom: 16px; line-height: 1.6; }
+  .btn-submit { background: var(--dark); color: var(--paper); border: none; font-family: var(--mono); font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 16px 48px; cursor: pointer; transition: opacity 0.15s; width: 100%; max-width: 360px; }
+  .btn-submit:hover { opacity: 0.85; }
+
+  #success-msg { display: none; text-align: center; padding: 48px 24px; }
+  #success-msg .big { font-size: 40px; margin-bottom: 16px; }
+  #success-msg p { font-size: 13px; color: var(--mid); line-height: 1.8; }
+
+  .doc-footer { max-width: 640px; margin: 48px auto 0; padding: 16px 16px 0; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; font-size: 10px; color: var(--light); letter-spacing: 0.08em; flex-wrap: wrap; gap: 6px; }
+
+  @media (max-width: 480px) { .options-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <div class="header-inner">
+    <div class="brand-line">Raphael Faria Criativo</div>
+    <div class="doc-title">Briefing de Templates<br>para Redes Sociais</div>
+    <div class="doc-sub">Dannyela Azevedo &mdash; Advogada</div>
+    <div class="doc-meta">
+      <span>Ref. <strong>CANVA-8-TEMPLATES</strong></span>
+      <span>Leva menos de 5 minutos</span>
+    </div>
+  </div>
+</div>
+
+<div class="doc-body">
+  <form id="briefing-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+    <input type="hidden" name="_subject" value="Briefing Canva — Dannyela Azevedo">
+
+    <!-- 1. IDENTIFICACAO -->
+    <div class="section">
+      <div class="section-title">Identificacao</div>
+      <div class="field">
+        <label>Nome completo <span class="req">*</span></label>
+        <input type="text" name="nome" required placeholder="Dannyela Azevedo">
+      </div>
+      <div class="field">
+        <label>E-mail para contato <span class="req">*</span></label>
+        <input type="email" name="email" required placeholder="seu@email.com.br">
+      </div>
+      <div class="field">
+        <label>Area de atuacao principal <span class="req">*</span></label>
+        <select name="area_atuacao" required>
+          <option value="">-- selecione --</option>
+          <option>Direito de Familia</option>
+          <option>Direito Trabalhista</option>
+          <option>Direito Civil</option>
+          <option>Direito Criminal / Penal</option>
+          <option>Direito Empresarial</option>
+          <option>Direito Previdenciario</option>
+          <option>Direito do Consumidor</option>
+          <option>Direito Tributario</option>
+          <option>Outra (descreva abaixo)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Areas secundarias ou complementares</label>
+        <textarea name="areas_secundarias" placeholder="Ex: tambem atuo com inventario e divorcio..."></textarea>
+      </div>
+    </div>
+
+    <!-- 2. PUBLICO -->
+    <div class="section">
+      <div class="section-title">Publico-alvo</div>
+      <div class="field">
+        <label>Para quem voce atende? <span class="req">*</span></label>
+        <div class="options-grid">
+          <label class="opt-label"><input type="checkbox" name="publico" value="Pessoa fisica"><div class="opt-check"></div><span>Pessoa fisica</span></label>
+          <label class="opt-label"><input type="checkbox" name="publico" value="Empresas / PJ"><div class="opt-check"></div><span>Empresas / PJ</span></label>
+          <label class="opt-label"><input type="checkbox" name="publico" value="Ambos"><div class="opt-check"></div><span>Ambos</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Perfil do seu cliente ideal</label>
+        <div class="field-hint">Idade, situacao, contexto — qualquer detalhe ajuda</div>
+        <textarea name="cliente_ideal" placeholder="Ex: adultos de 30 a 55 anos passando por separacao, geralmente indicados por conhecidos..."></textarea>
+      </div>
+    </div>
+
+    <!-- 3. TOM -->
+    <div class="section">
+      <div class="section-title">Tom e Posicionamento</div>
+      <div class="field">
+        <label>Como voce quer ser percebida? <span class="req">*</span></label>
+        <div class="options-grid">
+          <label class="opt-label"><input type="checkbox" name="posicionamento" value="Autoridade e seriedade"><div class="opt-check"></div><span>Autoridade e seriedade</span></label>
+          <label class="opt-label"><input type="checkbox" name="posicionamento" value="Acessivel e proxima"><div class="opt-check"></div><span>Acessivel e proxima</span></label>
+          <label class="opt-label"><input type="checkbox" name="posicionamento" value="Empatica e humana"><div class="opt-check"></div><span>Empatica e humana</span></label>
+          <label class="opt-label"><input type="checkbox" name="posicionamento" value="Moderna e inovadora"><div class="opt-check"></div><span>Moderna e inovadora</span></label>
+          <label class="opt-label"><input type="checkbox" name="posicionamento" value="Tradicional e classica"><div class="opt-check"></div><span>Tradicional e classica</span></label>
+          <label class="opt-label"><input type="checkbox" name="posicionamento" value="Feminina e sofisticada"><div class="opt-check"></div><span>Feminina e sofisticada</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Tom da linguagem <span class="req">*</span></label>
+        <div class="field-hint">1 = muito formal &nbsp;/&nbsp; 5 = bem descontraido</div>
+        <div class="scale-row" id="tom-scale">
+          <button type="button" class="scale-btn" data-val="1" onclick="selectScale('tom',this)">1</button>
+          <button type="button" class="scale-btn" data-val="2" onclick="selectScale('tom',this)">2</button>
+          <button type="button" class="scale-btn" data-val="3" onclick="selectScale('tom',this)">3</button>
+          <button type="button" class="scale-btn" data-val="4" onclick="selectScale('tom',this)">4</button>
+          <button type="button" class="scale-btn" data-val="5" onclick="selectScale('tom',this)">5</button>
+        </div>
+        <div class="scale-labels"><span>Muito formal</span><span>Descontraido</span></div>
+        <input type="hidden" name="tom_linguagem" id="tom-val">
+      </div>
+    </div>
+
+    <!-- 4. TIPOS DE CONTEUDO -->
+    <div class="section">
+      <div class="section-title">Tipos de Conteudo</div>
+      <div class="field">
+        <label>Que tipos de post voce quer nos 8 templates? <span class="req">*</span></label>
+        <div class="field-hint">Marque quantos quiser</div>
+        <div class="options-grid">
+          <label class="opt-label"><input type="checkbox" name="tipos" value="Apresentacao pessoal / escritorio"><div class="opt-check"></div><span>Apresentacao pessoal / escritorio</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos" value="Conteudo educativo (direitos, dicas)"><div class="opt-check"></div><span>Conteudo educativo</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos" value="Mitos e verdades juridicos"><div class="opt-check"></div><span>Mitos e verdades juridicos</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos" value="Chamada para contato / consulta"><div class="opt-check"></div><span>Chamada para contato</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos" value="Datas comemorativas"><div class="opt-check"></div><span>Datas comemorativas</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos" value="Frases e citacoes"><div class="opt-check"></div><span>Frases e citacoes</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos" value="Bastidores / humanizacao"><div class="opt-check"></div><span>Bastidores / humanizacao</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos" value="Alertas e cuidados juridicos"><div class="opt-check"></div><span>Alertas e cuidados juridicos</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos" value="Noticias do mundo juridico"><div class="opt-check"></div><span>Noticias do mundo juridico</span></label>
+          <label class="opt-label"><input type="checkbox" name="tipos" value="Outros" id="outros-check" onclick="toggleOutros(this)"><div class="opt-check"></div><span>Outros</span></label>
+        </div>
+      </div>
+      <div class="field" id="outros-field" style="display:none">
+        <label>Descreva o tipo de conteudo que voce quer</label>
+        <textarea name="tipos_outros" placeholder="Descreva aqui o tipo de conteudo que voce tem em mente..."></textarea>
+      </div>
+      <div class="field">
+        <label>Vai usar foto sua nos posts?</label>
+        <div class="options-grid">
+          <label class="opt-label"><input type="radio" name="usa_foto" value="Sim, tenho fotos profissionais"><div class="opt-check"></div><span>Sim, fotos profissionais</span></label>
+          <label class="opt-label"><input type="radio" name="usa_foto" value="Sim, mas sao informais"><div class="opt-check"></div><span>Sim, mas sao informais</span></label>
+          <label class="opt-label"><input type="radio" name="usa_foto" value="Prefiro sem foto minha"><div class="opt-check"></div><span>Prefiro sem foto minha</span></label>
+          <label class="opt-label"><input type="radio" name="usa_foto" value="Ainda nao decidi"><div class="opt-check"></div><span>Ainda nao decidi</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. IDENTIDADE VISUAL -->
+    <div class="section">
+      <div class="section-title">Identidade Visual</div>
+      <div class="field">
+        <label>Voce ja tem identidade visual pronta? <span class="req">*</span></label>
+        <div class="options-grid">
+          <label class="opt-label"><input type="radio" name="id_visual" value="Sim, completa (logo, cores, fontes)"><div class="opt-check"></div><span>Sim, completa</span></label>
+          <label class="opt-label"><input type="radio" name="id_visual" value="Sim, mas parcial"><div class="opt-check"></div><span>Sim, mas parcial</span></label>
+          <label class="opt-label"><input type="radio" name="id_visual" value="Nao tenho"><div class="opt-check"></div><span>Nao tenho</span></label>
+          <label class="opt-label"><input type="radio" name="id_visual" value="Tenho referencias visuais"><div class="opt-check"></div><span>Tenho referencias</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Cores que voce gosta ou ja usa</label>
+        <input type="text" name="cores" placeholder="Ex: dourado, verde escuro, preto e branco...">
+      </div>
+      <div class="field">
+        <label>Referencias visuais ou perfis que voce admira</label>
+        <div class="field-hint">Links do Instagram, nomes de perfis ou descricao de estilo</div>
+        <textarea name="referencias" placeholder="Ex: gosto do perfil @fulana, acho elegante e sobrio..."></textarea>
+      </div>
+      <div class="field">
+        <label>O que voce definitivamente NAO quer?</label>
+        <textarea name="nao_quer" placeholder="Ex: nao quero cores muito vibrantes, nao quero estilo infantil..."></textarea>
+      </div>
+    </div>
+
+    <!-- 6. OBS -->
+    <div class="section">
+      <div class="section-title">Observacoes Finais</div>
+      <div class="field">
+        <label>Alguma informacao adicional?</label>
+        <textarea name="observacoes" style="min-height:100px" placeholder="Datas importantes, eventos proximos, parceiros, qualquer detalhe relevante..."></textarea>
+      </div>
+    </div>
+
+    <hr class="rule-double">
+
+    <div class="submit-area">
+      <p class="submit-note">Ao enviar, suas respostas chegam diretamente para<br><strong>contato@raphaelfaria.com.br</strong></p>
+      <button type="submit" class="btn-submit">&gt; Enviar Briefing</button>
+    </div>
+  </form>
+
+  <div id="success-msg">
+    <div class="big">[OK]</div>
+    <p>Briefing recebido com sucesso.<br>Raphael entrara em contato em breve<br>para dar inicio ao projeto.</p>
+  </div>
+</div>
+
+<div class="doc-footer">
+  <span>RAPHAEL FARIA CRIATIVO</span>
+  <span>contato@raphaelfaria.com.br</span>
+</div>
+
+<script>
+function toggleOutros(cb) {
+  document.getElementById('outros-field').style.display = cb.checked ? 'block' : 'none';
+}
+
+function selectScale(group, btn) {
+  btn.closest('.scale-row').querySelectorAll('.scale-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(group + '-val').value = btn.dataset.val;
+}
+
+document.getElementById('briefing-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  if (!document.getElementById('tom-val').value) {
+    alert('Por favor, selecione o tom da linguagem (escala 1-5).');
+    return;
+  }
+  const btn = this.querySelector('.btn-submit');
+  btn.textContent = '> Enviando...';
+  btn.disabled = true;
+  try {
+    const res = await fetch(this.action, { method:'POST', body: new FormData(this), headers:{'Accept':'application/json'} });
+    if (res.ok) {
+      this.style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+      window.scrollTo({top:0, behavior:'smooth'});
+    } else {
+      btn.textContent = '> Enviar Briefing'; btn.disabled = false;
+      alert('Erro ao enviar. Tente novamente.');
+    }
+  } catch {
+    btn.textContent = '> Enviar Briefing'; btn.disabled = false;
+    alert('Erro de conexao. Verifique sua internet.');
+  }
+});
+</script>
+</body>
+</html>
